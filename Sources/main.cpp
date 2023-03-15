@@ -1,4 +1,4 @@
-#include "hfwidget.h"
+#include "Headers/hfwidget.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])

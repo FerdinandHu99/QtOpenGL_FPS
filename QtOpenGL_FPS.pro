@@ -25,11 +25,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-        main.cpp \
-        hfwidget.cpp
+        Sources/hfopenglwidget.cpp \
+        Sources/main.cpp \
+        Sources/hfwidget.cpp
 
 HEADERS += \
-        hfwidget.h
+        Headers/hfopenglwidget.h \
+        Headers/hfwidget.h
 
 FORMS += \
         hfwidget.ui
@@ -38,3 +40,9 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    vertexshader.vert
+
+RESOURCES += \
+    res.qrc

@@ -2,7 +2,7 @@
 #define HFWIDGET_H
 
 #include <QWidget>
-
+#include "hfopenglwidget.h"
 namespace Ui {
 class HFWidget;
 }
@@ -17,6 +17,7 @@ public:
 
 private:
     Ui::HFWidget *ui;
+    HFOpenGLWidget *OpenGLWidget;
 };
 
 #endif // HFWIDGET_H

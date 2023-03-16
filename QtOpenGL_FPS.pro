@@ -25,12 +25,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        Sources/hfmodel.cpp \
         Sources/hfmesh.cpp \
         Sources/hfopenglwidget.cpp \
         Sources/main.cpp \
         Sources/hfwidget.cpp
 
 HEADERS += \
+        Headers/hfmodel.h \
         Headers/hfopenglwidget.h \
         Headers/hfwidget.h \
         Headers/hfmesh.h

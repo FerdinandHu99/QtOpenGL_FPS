@@ -25,13 +25,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        Sources/hfmesh.cpp \
         Sources/hfopenglwidget.cpp \
         Sources/main.cpp \
         Sources/hfwidget.cpp
 
 HEADERS += \
         Headers/hfopenglwidget.h \
-        Headers/hfwidget.h
+        Headers/hfwidget.h \
+        Headers/hfmesh.h
 
 FORMS += \
         hfwidget.ui
@@ -46,3 +48,8 @@ DISTFILES += \
 
 RESOURCES += \
     res.qrc
+
+win32: LIBS += -L$$PWD/Dependencies/ASSIMP/lib/ -llibassimp.dll
+
+INCLUDEPATH += $$PWD/Dependencies/ASSIMP/include
+DEPENDPATH += $$PWD/Dependencies/ASSIMP/include

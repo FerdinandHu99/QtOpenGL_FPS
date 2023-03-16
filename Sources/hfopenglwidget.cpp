@@ -36,6 +36,7 @@ void HFOpenGLWidget::initializeGL()
     m_VBO.setUsagePattern(QOpenGLBuffer::StaticDraw);
     m_EBO.bind();
     m_EBO.allocate(indices, sizeof (indices));
+    m_EBO.setUsagePattern(QOpenGLBuffer::StaticDraw);
 
     m_shaderProgram.bind();
     m_shaderProgram.setAttributeBuffer(0, GL_FLOAT, 0, 3, 3 * sizeof (GLfloat));

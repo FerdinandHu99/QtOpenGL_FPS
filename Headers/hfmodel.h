@@ -14,6 +14,7 @@ class HFModel : public QObject
 public:
     explicit HFModel(QOpenGLShaderProgram* shaderProgram, QObject *parent = nullptr);
     bool loadModelFile(QDir filePath);
+    void draw();
 private:
     QDir                   m_directory;            // 模型文件目录
     QVector<HFMesh*>       m_meshs;                // 储存模型的所有网格

@@ -7,6 +7,7 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 #include <QOpenGLShaderProgram>
+#include <QOpenGLTexture>
 #include "hfmodel.h"
 class HFOpenGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
@@ -21,6 +22,7 @@ private:
     QOpenGLVertexArrayObject m_VAO;
     QOpenGLBuffer m_VBO;
     QOpenGLBuffer m_EBO;
+    QOpenGLTexture m_texture;
     QOpenGLShaderProgram m_shaderProgram;
 };
 

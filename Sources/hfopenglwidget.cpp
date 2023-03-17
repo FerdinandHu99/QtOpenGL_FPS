@@ -43,6 +43,11 @@ void HFOpenGLWidget::initializeGL()
     m_shaderProgram.enableAttributeArray(0);
 
     m_VAO.release();
+
+    HFModel model;
+    //model.loadModelFile(QString("D:/Qt_Projects/KingGuns/Models/gun/m4a1_s.obj"));
+    //model.loadModelFile(QString("D:/Qt_Projects/KingGuns/Models/container/container.obj"));
+    model.loadModelFile(QString("E:/Qt_Projects/QtOpenGL_FPS/Models/nanosuit/nanosuit.obj"));
 }
 void HFOpenGLWidget::paintGL()
 {
@@ -59,5 +64,10 @@ void HFOpenGLWidget::paintGL()
 
 void HFOpenGLWidget::resizeGL(int w, int h)
 {
+    //glViewport(0, 0, w, h);
+}
 
+HFOpenGLWidget::~HFOpenGLWidget()
+{
+    makeCurrent(); // 获取当前上下文属性
 }

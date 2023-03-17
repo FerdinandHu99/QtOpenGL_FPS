@@ -7,11 +7,12 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 #include <QOpenGLShaderProgram>
+#include "hfmodel.h"
 class HFOpenGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
 public:
     HFOpenGLWidget(QWidget* parent = nullptr);
-
+    ~HFOpenGLWidget() override;
 protected:
     virtual void initializeGL() override;
     virtual void resizeGL(int w, int h) override;

@@ -37,13 +37,15 @@ class HFMesh : public QObject, protected QOpenGLFunctions_3_3_Core
 {
     Q_OBJECT
 public:
-    explicit HFMesh(QObject *parent = nullptr);
+    explicit HFMesh(QOpenGLShaderProgram* shaderProgram, QObject *parent = nullptr);
     void loadMeshData(QVector<Vertex> vertices, QVector<unsigned int> indices, QVector<Texture*> textures); // 加载Mesh所需数据
-    void draw(QOpenGLShaderProgram& shaderProgram); // 绘制函数
+    void draw(); // 绘制函数
+    void initMesh();
 private:
     QOpenGLVertexArrayObject m_VAO;
     QOpenGLBuffer m_VBO;
     QOpenGLBuffer m_EBO;
+    QOpenGLShaderProgram* m_shaderProgram;
 
     QVector<Vertex>       m_vertices;                         // 顶点数据（顶点坐标、法线向量、纹理坐标）
     QVector<unsigned int> m_indices;                          // 索引数据

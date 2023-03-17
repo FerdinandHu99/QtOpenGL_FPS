@@ -1,6 +1,6 @@
 #include "Headers/hfmodel.h"
 
-HFModel::HFModel(QObject *parent) : QObject(parent)
+HFModel::HFModel(QOpenGLShaderProgram* shaderProgram, QObject *parent) : QObject(parent), m_shaderProgram(shaderProgram)
 {
 
 }
@@ -19,6 +19,13 @@ bool HFModel::loadModelFile(QDir filePath)
     this->processNode(scene->mRootNode, scene); // 递归处理模型的所有节点
     qDebug() << "总共加载了：" << m_texturesLoaded.size();
     return true;
+}
+
+void HFModel::draw()
+{
+    for (auto mesh : m_meshs) {
+        mesh->draw();
+    }
 }
 
 // 递归处理模型的所有节点
@@ -40,7 +47,7 @@ HFMesh* HFModel::processMesh(aiMesh *mesh, const aiScene *scene)
 
     QVector<Vertex>       vertices;   // 顶点数据(顶点坐标、法线向量、纹理坐标)
     QVector<unsigned int> indices;    // 索引数据
-    QVector<Texture*>     textures;   // 贴图数据
+    QVector<Texture*>     textures;   // 纹理贴图
 
     /* 处理当前Mesh的所有顶点数据 */
     for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
@@ -110,13 +117,12 @@ HFMesh* HFModel::processMesh(aiMesh *mesh, const aiScene *scene)
             }
         }
     }
-    HFMesh* hfmesh = new HFMesh;
+    HFMesh* hfmesh = new HFMesh(m_shaderProgram);
     hfmesh->loadMeshData(vertices, indices, textures);
     return hfmesh;
-//    HFMesh* hfMesh = new HFMesh(vertices, indices, textures, m_shaderProgram, m_context->functions());
-//    return hfMesh;
 }
 
+/* 加载各种类型（漫发射、镜面、法向）纹理贴图 */
 QVector<Texture*> HFModel::loadMaterialTextures(aiMaterial *material, aiTextureType type, QString typeName)
 {
     QVector<Texture*> textures;

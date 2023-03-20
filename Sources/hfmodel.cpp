@@ -1,8 +1,8 @@
 #include "Headers/hfmodel.h"
 
-HFModel::HFModel(QOpenGLShaderProgram* shaderProgram, QObject *parent) : QObject(parent), m_shaderProgram(shaderProgram)
+HFModel::HFModel(QOpenGLShaderProgram* shaderProgram, QObject *parent) : QObject(parent)
 {
-
+    m_shaderProgram = shaderProgram;
 }
 
 bool HFModel::loadModelFile(QDir filePath)

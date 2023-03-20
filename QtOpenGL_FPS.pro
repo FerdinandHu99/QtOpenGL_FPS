@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        Sources/hfcamera.cpp \
         Sources/hfmodel.cpp \
         Sources/hfmesh.cpp \
         Sources/hfopenglwidget.cpp \
@@ -32,6 +33,7 @@ SOURCES += \
         Sources/hfwidget.cpp
 
 HEADERS += \
+        Headers/hfcamera.h \
         Headers/hfmodel.h \
         Headers/hfopenglwidget.h \
         Headers/hfwidget.h \

@@ -36,6 +36,7 @@ private:
 
     bool keys[100] = {false}; // 保存键盘状态的数组
     HFCamera *m_camera; // 声明一个摄像头
+    QPoint m_centerMousePoint;
     /* 帧率计算 */
     QTime m_time;
     int m_lastTime;

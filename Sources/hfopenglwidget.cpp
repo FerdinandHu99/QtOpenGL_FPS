@@ -7,16 +7,20 @@ HFOpenGLWidget::HFOpenGLWidget(QWidget *parent) : QOpenGLWidget(parent), m_VBO(Q
 {
     //m_texture = new Texture;
     //m_texture.create();
-
+    this->setFocusPolicy(Qt::StrongFocus);                       // 获得键盘焦点
+    this->setMouseTracking(true);                                // 启用鼠标跟踪
+    this->setCursor(Qt::BlankCursor);                            // 取消光标显示
     /* 时间开始 */
     m_lastTime = 0;
     m_time.start();
+
 
 }
 
 void HFOpenGLWidget::initializeGL()
 {
     initializeOpenGLFunctions();
+    m_centerMousePoint = QPoint(width()/2, height()/2);
     glEnable(GL_DEPTH_TEST);
     GLfloat vertices[] = {
         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -112,7 +116,10 @@ void HFOpenGLWidget::paintGL()
     int FPS = (1.0 / m_deltaTime) * 1000;
     m_lastTime = currentTime;
 
-    // 清空并更新背景颜色
+    /* 接受接盘更新 */
+    keyBoardProcess();
+
+    /* 清空并更新背景颜色,清除颜色缓冲区、深度缓冲区 */ 清空并更新背景颜色,清除颜色缓冲区、深度缓冲区
     glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_TEST);
 
@@ -126,10 +133,11 @@ void HFOpenGLWidget::paintGL()
     QMatrix4x4 modelMat, viewMat, projectionMat;
     modelMat.rotate(currentTime*0.01, QVector3D(0, 1, 0));
     viewMat.translate(QVector3D(0.0f, 0.0f, -3.0f));
-    projectionMat.perspective(45.0f, width()/height(), 0.1f, 100.0f);
-
+    projectionMat.perspective(m_camera->Fov(), width()/height(), 0.1f, 100.0f);
+    //qDebug() << m_camera->getViewMatrix();
+    //qDebug() << viewMat;
     m_shaderProgram.setUniformValue("model", modelMat);
-    m_shaderProgram.setUniformValue("view", viewMat);
+    m_shaderProgram.setUniformValue("view", m_camera->getViewMatrix());
     m_shaderProgram.setUniformValue("projection", projectionMat);
 
 
@@ -178,6 +186,7 @@ void HFOpenGLWidget::keyReleaseEvent(QKeyEvent *event)
 // 键盘事件处理函数（实现多个按键同时按下功能）
 void HFOpenGLWidget::keyBoardProcess()
 {
+    qDebug() << "按键按下:";
     if (keys[Qt::Key_W] == true) m_camera->processKeyboard(HFCamera::FORWARD, m_deltaTime);
     if (keys[Qt::Key_S] == true) m_camera->processKeyboard(HFCamera::BACKWARD, m_deltaTime);
     if (keys[Qt::Key_A] == true) m_camera->processKeyboard(HFCamera::LEFT, m_deltaTime);
@@ -187,17 +196,17 @@ void HFOpenGLWidget::keyBoardProcess()
 // 接收鼠标移动事件
 void HFOpenGLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-//    QPoint currentMousePoint = event->pos();
-//    QPoint deltaMousePoint = currentMousePoint - m_centerMousePoint;
-//    if (event->buttons() == Qt::MidButton) {
-//        m_camera->processMouseMidBtnMovement(deltaMousePoint.y());
-//        QPoint center = this->mapToGlobal(m_centerMousePoint);
-//        QCursor::setPos(center);
-//    } else {
-//        m_camera->processMouseMovement(deltaMousePoint.x(), deltaMousePoint.y());
-//        QPoint center = this->mapToGlobal(m_centerMousePoint);
-//        QCursor::setPos(center);
-//    }
+    QPoint currentMousePoint = event->pos();
+    QPoint deltaMousePoint = currentMousePoint - m_centerMousePoint;
+    if (event->buttons() == Qt::MidButton) {
+        m_camera->processMouseMidBtnMovement(deltaMousePoint.y());
+        QPoint center = this->mapToGlobal(m_centerMousePoint);
+        QCursor::setPos(center);
+    } else {
+        m_camera->processMouseMovement(deltaMousePoint.x(), deltaMousePoint.y());
+        QPoint center = this->mapToGlobal(m_centerMousePoint);
+        QCursor::setPos(center);
+    }
 }
 
 // 鼠标滚轮事件

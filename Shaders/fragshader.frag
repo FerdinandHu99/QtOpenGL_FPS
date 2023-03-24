@@ -1,13 +1,12 @@
 #version 330 core
-in vec3 ourColor;
-in vec2 TexCoord;
+
+in vec2 TexCoords;
 
 out vec4 color;
 
-// Texture samplers
-uniform sampler2D ourTexture1;
+uniform sampler2D texture_diffuse1;
 
 void main()
 {
-    color = texture(ourTexture1, TexCoord);
+    color = vec4(texture2D(texture_diffuse1, TexCoords));
 }

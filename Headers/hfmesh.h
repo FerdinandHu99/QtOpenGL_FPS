@@ -2,7 +2,7 @@
 #define HFMESH_H
 
 #include <QObject>
-#include <QOpenGLFunctions_3_3_Core>
+//#include <QOpenGLFunctions_3_3_Core>
 #include <QVector>
 #include <QVector3D>
 #include <QVector2D>
@@ -10,6 +10,8 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 #include <QOpenGLShaderProgram>
+#include <QOpenGLContext>
+#include <QOpenGLFunctions>
 /* 存储顶点数据的结构体：顶点坐标、法线向量、纹理坐标 */
 struct Vertex {
     QVector3D Position;
@@ -33,11 +35,11 @@ struct Texture
     }
 };
 
-class HFMesh : public QObject, protected QOpenGLFunctions_3_3_Core
+class HFMesh : public QObject//, protected QOpenGLFunctions_3_3_Core
 {
     Q_OBJECT
 public:
-    explicit HFMesh(QOpenGLShaderProgram* shaderProgram, QObject *parent = nullptr);
+    HFMesh(QOpenGLShaderProgram* shaderProgram, QOpenGLContext* OpenGLContext, QObject *parent = nullptr);
     void loadMeshData(QVector<Vertex> vertices, QVector<unsigned int> indices, QVector<Texture*> textures); // 加载Mesh所需数据
     void draw(); // 绘制函数
     void initMesh();
@@ -46,6 +48,7 @@ private:
     QOpenGLBuffer m_VBO;
     QOpenGLBuffer m_EBO;
     QOpenGLShaderProgram* m_shaderProgram;
+    QOpenGLContext* m_OpenGLContext;
 
     QVector<Vertex>       m_vertices;                         // 顶点数据（顶点坐标、法线向量、纹理坐标）
     QVector<unsigned int> m_indices;                          // 索引数据

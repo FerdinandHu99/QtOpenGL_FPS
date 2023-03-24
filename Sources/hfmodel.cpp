@@ -1,6 +1,6 @@
 #include "Headers/hfmodel.h"
 
-HFModel::HFModel(QOpenGLShaderProgram* shaderProgram, QObject *parent) : QObject(parent)
+HFModel::HFModel(QOpenGLShaderProgram* shaderProgram, QOpenGLContext* OpenGLContext, QObject *parent) : QObject(parent), m_OpenGLContext(OpenGLContext)
 {
     m_shaderProgram = shaderProgram;
 }
@@ -117,7 +117,7 @@ HFMesh* HFModel::processMesh(aiMesh *mesh, const aiScene *scene)
             }
         }
     }
-    HFMesh* hfmesh = new HFMesh(m_shaderProgram);
+    HFMesh* hfmesh = new HFMesh(m_shaderProgram, m_OpenGLContext);
     hfmesh->loadMeshData(vertices, indices, textures);
     return hfmesh;
 }

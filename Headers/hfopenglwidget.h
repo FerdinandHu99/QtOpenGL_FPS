@@ -41,6 +41,8 @@ private:
     QTime m_time;
     int m_lastTime;
     int m_deltaTime;
+
+    HFModel* model;
 };
 
 #endif // HFOPENGLWIDGET_H

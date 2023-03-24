@@ -1,6 +1,8 @@
 #include "Headers/hfmesh.h"
 
-HFMesh::HFMesh(QOpenGLShaderProgram* shaderProgram, QObject *parent) : QObject(parent), m_shaderProgram(shaderProgram)
+HFMesh::HFMesh(QOpenGLShaderProgram* shaderProgram, QOpenGLContext* OpenGLContext, QObject *parent) : QObject(parent),
+    m_VBO(QOpenGLBuffer::VertexBuffer), m_EBO(QOpenGLBuffer::IndexBuffer),
+    m_shaderProgram(shaderProgram), m_OpenGLContext(OpenGLContext)
 {
     initMesh();
 }
@@ -14,16 +16,17 @@ void HFMesh::loadMeshData(QVector<Vertex> vertices, QVector<unsigned int> indice
 
 void HFMesh::draw()
 {
+
+    QOpenGLFunctions* OpenGLFunctions = m_OpenGLContext->functions();
     m_VAO.bind();
     m_shaderProgram->bind();
-
     // 处理纹理数据
     unsigned int diffuseNr = 1;
     unsigned int specularNr = 1;
 
     // 设置贴图
     for (unsigned int i = 0; i < m_textures.size(); i++) {
-        glActiveTexture(GL_TEXTURE0 + i);
+        OpenGLFunctions->glActiveTexture(GL_TEXTURE0 + i);
         QString number;
         QString typeName = m_textures[i]->type;
         if (typeName == "texture_diffuse") {
@@ -39,12 +42,12 @@ void HFMesh::draw()
     //m_shaderProgram->setUniformValue("model", modelMatrix);
 
     // 绘制网格
-    glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
+    OpenGLFunctions->glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
 
     /* 将所有纹理清除绑定 */
     for (unsigned int i = 0; i < m_textures.size(); i++) {
-        glActiveTexture(GL_TEXTURE0 + i);
-        glBindTexture(GL_TEXTURE_2D, 0);
+        OpenGLFunctions->glActiveTexture(GL_TEXTURE0 + i);
+        OpenGLFunctions->glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     m_VAO.release();

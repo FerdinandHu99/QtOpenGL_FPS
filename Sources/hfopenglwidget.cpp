@@ -22,87 +22,17 @@ void HFOpenGLWidget::initializeGL()
     initializeOpenGLFunctions();
     m_centerMousePoint = QPoint(width()/2, height()/2);
     glEnable(GL_DEPTH_TEST);
-//    GLfloat vertices[] = {
-//        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-//        0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-//        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-//        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-//        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-//        0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-//        0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-//        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-//        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-//        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-//        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//        0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//        0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//        0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-//        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//        0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-//        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-//        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-//        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-//        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-//        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-//        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-//    };
 
     m_shaderProgram.create();
     m_shaderProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/Shaders/vertexshader.vert");
     m_shaderProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/Shaders/fragshader.frag");
 
-//    m_VAO.create();
-//    m_VBO.create();
-//    m_EBO.create();
-
-//    m_VAO.bind();
-//    m_VBO.bind();
-//    m_VBO.allocate(vertices, sizeof (vertices));
-//    m_VBO.setUsagePattern(QOpenGLBuffer::StaticDraw);
-
-//    qDebug() << sizeof (GLfloat);
-//    m_shaderProgram.bind();
-//    m_shaderProgram.setAttributeBuffer(0, GL_FLOAT, 0, 3, 5 * sizeof (GLfloat));
-//    m_shaderProgram.enableAttributeArray(0);
-
-//    m_shaderProgram.setAttributeBuffer(2, GL_FLOAT, 3*sizeof (GLfloat), 2, 5 * sizeof (GLfloat));
-//    m_shaderProgram.enableAttributeArray(2);
-
-//    m_texture.setWrapMode(QOpenGLTexture::DirectionS,QOpenGLTexture::Repeat);
-//    m_texture.setWrapMode(QOpenGLTexture::DirectionT,QOpenGLTexture::Repeat);
-//    m_texture.setMinMagFilters(QOpenGLTexture::LinearMipMapLinear,QOpenGLTexture::Linear);
-//    QImage data(":/Images/container_diff.png");
-//    if (!data.isNull()) {
-//        m_texture.setData(data);
-//    } else {
-//        qDebug() << "图片读取失败" ;
-//    }
-//    m_texture.release();
-//    m_VAO.release();
 
     model = new HFModel(&m_shaderProgram, context());
-    //model->loadModelFile(QString("E:/Qt_Projects/QtOpenGL_FPS/Models/nanosuit/nanosuit.obj"));
+    model->loadModelFile(QString("E:/Qt_Projects/QtOpenGL_FPS/Models/nanosuit/nanosuit.obj"));
 
-    model->loadModelFile(QString("D:/Qt_Projects/AssimpTest/Models/container/container.obj"));
+    //model->loadModelFile(QString("D:/Qt_Projects/AssimpTest/Models/container/container.obj"));
+    model->Info();
 }
 void HFOpenGLWidget::paintGL()
 {
@@ -127,8 +57,8 @@ void HFOpenGLWidget::paintGL()
     m_shaderProgram.bind();
 
     QMatrix4x4 modelMat, viewMat, projectionMat;
-    modelMat.rotate(currentTime*0.01, QVector3D(0, 1, 0));
-    viewMat.translate(QVector3D(0.0f, 0.0f, -3.0f));
+    //modelMat.rotate(currentTime*0.01, QVector3D(0, 1, 0));
+    //viewMat.translate(QVector3D(0.0f, 0.0f, -3.0f));
     projectionMat.perspective(m_camera->Fov(), width()/height(), 0.1f, 100.0f);
     //qDebug() << m_camera->getViewMatrix();
     //qDebug() << viewMat;

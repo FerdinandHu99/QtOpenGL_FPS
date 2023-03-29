@@ -4,7 +4,7 @@ HFMesh::HFMesh(QOpenGLShaderProgram* shaderProgram, QOpenGLContext* OpenGLContex
     m_VBO(QOpenGLBuffer::VertexBuffer), m_EBO(QOpenGLBuffer::IndexBuffer),
     m_shaderProgram(shaderProgram), m_OpenGLContext(OpenGLContext)
 {
-    initMesh();
+
 }
 
 void HFMesh::loadMeshData(QVector<Vertex> vertices, QVector<unsigned int> indices, QVector<Texture *> textures)
@@ -12,12 +12,14 @@ void HFMesh::loadMeshData(QVector<Vertex> vertices, QVector<unsigned int> indice
     m_vertices = vertices;
     m_indices = indices;
     m_textures = textures;
+    initMesh();
 }
 
 void HFMesh::draw()
 {
 
     QOpenGLFunctions* OpenGLFunctions = m_OpenGLContext->functions();
+    OpenGLFunctions->initializeOpenGLFunctions();
     m_VAO.bind();
     m_shaderProgram->bind();
     // 处理纹理数据

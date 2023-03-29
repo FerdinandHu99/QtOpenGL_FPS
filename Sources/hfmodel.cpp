@@ -1,8 +1,16 @@
 #include "Headers/hfmodel.h"
 
-HFModel::HFModel(QOpenGLShaderProgram* shaderProgram, QOpenGLContext* OpenGLContext, QObject *parent) : QObject(parent), m_OpenGLContext(OpenGLContext)
+HFModel::HFModel(QOpenGLShaderProgram* shaderProgram, QOpenGLContext* OpenGLContext, QObject *parent) : QObject(parent), m_OpenGLContext(OpenGLContext),
+  m_shaderProgram(shaderProgram)
 {
-    m_shaderProgram = shaderProgram;
+
+}
+
+HFModel::~HFModel()
+{
+    for (auto mesh : m_meshs) {
+        delete mesh;
+    }
 }
 
 bool HFModel::loadModelFile(QDir filePath)
@@ -157,4 +165,12 @@ QVector<Texture*> HFModel::loadMaterialTextures(aiMaterial *material, aiTextureT
         }
     }
     return textures;
+}
+
+/* 打印模型信息 */
+void HFModel::Info()
+{
+    qDebug() << "Model directory: " << m_directory.path();
+    qDebug() << "Model mesh nums: " << m_meshs.size();
+    qDebug() << "Model texture nums: " << m_texturesLoaded.size();
 }
